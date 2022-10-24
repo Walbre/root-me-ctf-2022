@@ -50,7 +50,7 @@ After launching this program a few time we can tell that the server as 2 way of 
 Can you tell me what is the atomic weight of Nihonium please?
 ```
 
-The script also ask for 3 different informations :
+The script also asks for 3 different informations :
 
 - The atomic weight
 
