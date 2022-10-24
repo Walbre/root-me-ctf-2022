@@ -90,11 +90,11 @@ Thallium	CAS7440-28-0
 ....
 ```
 
-So I needed to firstly do a function that was going to get the atom's name and the data to send. And after that, fetch the right data in the database.
+So we firstly needed to do a function that was going to get the atom's name and the data to send. And after that, fetch the right data in the database.
 
 ```python
 
-# open files as global variable to avoid reopening them for each request
+# open files as global variable to avoid re-opening them for each request
 with open('prog_physic_db.txt', 'r') as f:
     reference = f.readlines()
 
@@ -108,10 +108,10 @@ def andler(text):
     text = text.replace("Can you tell me what is the ", '')
     text = text.replace(" please?", '')
 
-    # case we needed the atoic weight
+    # case we need the atomic weight
     if "atomic weight" in text:
 
-        # they is to way of asking, so I needed to remove both sentences
+        # there is 2 way of asking, so we need to remove both possible sentences
         text = text.replace("atomic weight of ", '')
         text = text.replace("atomic weight for the ", '')
         text = text.replace(' ', '')
@@ -121,10 +121,11 @@ def andler(text):
 
         for line in reference:
             if text in line:
-                # some atoms are between []
+                # the atomic weights that are integers are between []
                 if "[" in line:
                     answer = line[line.index("["):line.index("]")]
-                # the ones that aren't have a '(' just after the value and always had a . (and < 999)
+                # the ones that aren't integers have a '(' just after the value and always have a '.' 
+                # there are also < 999 so we just need the 3 numbers before the '.'
                 else:
                     # -3 because atomic weight < 999
                     answer = line[line.index(".")-3:line.index("(")]
@@ -135,7 +136,7 @@ def andler(text):
 
 
                 if "." in answer:
-                    # return the value rounded to 0.1 (after contacting the administrator because the data was different depending on the source so it needed to be less precise)
+                    # return the value rounded to 0.1 (needed because of the differnces between databases)
                     return str(round(float(answer),1))
                 else:
                     return answer
@@ -151,7 +152,8 @@ def andler(text):
 
         for line in reference_cas:
             if text in line:
-                # because of the copy/paste we need to take care of the lines where the name and the cas are separated with a ' ' and with a '\t'
+                # because of the copy/paste we need to take care of the lines where the name
+                # and the cas are separated with a ' ' and with a '\t'
                 if '\t' in line:
                     answer = line.split('\t')[1]
                 else:
@@ -171,7 +173,8 @@ def andler(text):
 
         for line in reference:
             if text in line:
-                # the number of electron is the first column and the name the second so we can just select what's before the name to get the number of electron
+                # the number of electron is the first column and the name is the second
+                # so we can just select what's before the name to get the number of electron
                 answer = line.lower().split(text.lower())[0]
                 answer = answer.replace(" ", '')
 
@@ -500,7 +503,7 @@ Sorry, I don't speak your language, I'm a computer...
 Yo, please tell me what is the value of the cas number for the Flerovium
 Sorry, I don't speak your language, I'm a computer...
 
-[.......]
+[....same thing....]
 
 Yo, please tell me what is the value of the cas number for the Flerovium
 Sorry, I don't speak your language, I'm a computer...
