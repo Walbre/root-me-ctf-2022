@@ -1,6 +1,3 @@
-import os
-os.chdir("C:/Users/brewa/OneDrive/Documents/ctf/root-me-ctf-21-10-22")
-
 import socket
 
 host = "ctf10k.root-me.org"
