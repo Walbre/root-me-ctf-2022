@@ -156,5 +156,7 @@ Congratz! Your flag is RM{Luk4s13w1cz_w0uld_b3_pr0ud}
 
 Here we got the flag `RM{Luk4s13w1cz_w0uld_b3_pr0ud}`.
 
+You can find the source code [here](./main.py).
+
 Thanks Elf for the challenge and thank you for reading ! 
 
