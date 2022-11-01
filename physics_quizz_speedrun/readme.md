@@ -444,77 +444,7 @@ Congratz, you got the speedrun world record! Here's your price: RM{4t0ms_sp33dru
 And here we got the flag `RM{4t0ms_sp33drunn3r_sp3c14l1st}`.
 
 
-## Bonus : other way of doing it ?!?
 
-Exploit found by Oblivios
-
-What if there was a way to get the flag in less than 20 lines of code ?
-
-Okay, let's try to send wathever to the challenge.
-
-```python
-
-import asyncio
-import websockets
-
-async def test():
-    async with websockets.connect('ws://ctf10k.root-me.org:8000') as websocket:
-        print(dc(await websocket.recv()))
-        await websocket.send("whatever")
-            
-asyncio.get_event_loop().run_until_complete(test())
-
-```
-If we do this, server will answer with 
-
-```
-0101001101101111011100100111001001111001001011000010000001001001001000000110010001101111011011100010011101110100001000000111001101110000011001010110000101101011001000000111100101101111011101010111001000100000011011000110000101101110011001110111010101100001011001110110010100101100001000000100100100100111011011010010000001100001001000000110001101101111011011010111000001110101011101000110010101110010001011100010111000101110
-```
-Which once decoded says : `Yo, please tell me what is the value of the cas number for the Flerovium
-Sorry, I don't speak your language, I'm a computer...`.
-
-Okay, that seems normal but what if we try to put this instruction in an infinite loop. It'll obvioulsy just spam the server whit `whatever`.
-
-```python
-import asyncio
-import websockets
-
-def dc(response):
-    byte, final_string = "", ""
-    for bit in response:
-        byte += bit
-        if len(byte) >= 8:
-            final_string += chr(int(byte, 2))
-            byte = ""
-    return final_string
-
-async def test():
-    async with websockets.connect('ws://ctf10k.root-me.org:8000') as websocket:
-        while True:
-            print(dc(await websocket.recv()))
-            await websocket.send("whatever")
-            
-asyncio.get_event_loop().run_until_complete(test())
-```
-
-It gives the output : 
-
-```
-Yo, please tell me what is the value of the cas number for the Flerovium
-Sorry, I don't speak your language, I'm a computer...
-Yo, please tell me what is the value of the cas number for the Flerovium
-Sorry, I don't speak your language, I'm a computer...
-
-[....same thing....]
-
-Yo, please tell me what is the value of the cas number for the Flerovium
-Sorry, I don't speak your language, I'm a computer...
-Yo, please tell me what is the value of the cas number for the Flerovium
-Sorry, I don't speak your language, I'm a computer...
-Congratz, you got the speedrun world record! Here's your price: RM{4t0ms_sp33drunn3r_sp3c14l1st}
-```
-
-So, this also works, a misconfiguration, maybe in the identation of the program allows someone to get the flag just by sending a lot of requests that aren't encoded. This misconfiguration was reported and patched during the ctf.
 
 In any case we got the flag, you can find the source code for the "normal" version [here](./websocket_chall.py).
 
