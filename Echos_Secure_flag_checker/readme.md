@@ -76,13 +76,13 @@ def testFlag(passw):
 testFlag(flag)
 ```
 
-Ok, bye reading the script, we can assume that the administrator of the website ran the program but forgot to close it by typing \<ENTER\>. We can assume that he ran something like
+Ok, by reading the script, we can assume that the administrator of the website ran the program but forgot to close it by typing \<ENTER\>. We can assume that he ran something like
 
 ```bash
 ./flagChecker -f flag
 ```
 
-So, what we exploit is the fact that the script is currently running. To do that, let's look into the local/remote file inclusion that we found earlier.
+So, what we could exploit is the fact that the script is currently running. To do that, let's look into the local/remote file inclusion that we found earlier.
 
 To be more precise, let's firstly try if there really is a local file inclusion. To check that, the most efficient way is to test it on a file that exists in the directory for sure and we got one. Infact, `flagChecker.py`is in this directory.
 
@@ -100,9 +100,9 @@ Now let's see if there is a restriction on the file that we can open. For exampl
 
 Unfortunately, there is one. :cry:
 
-If we think a litle, what we need to find is the command that was executed. To do that, we have 2 ways, or a log file, or a file that contains iformations about the programs currently running.
+If we think a little, what we need to find is the command that was executed. To do that, we have 2 ways, or a log file, or a file that contains informations about the programs currently running.
 
-Logs are out of reach, cause most of them need root permissions to be openend, so it only remains the second possibilty.
+Logs are out of reach, cause most of them need root permissions to be opened, so it only remains the second possibilty.
 
 If we look further in the way of working of linux type systems, there is a directory created for each currently running program in `/proc` which is named with the PID of the process. Inside, there is a file called `cmdline`, where we can find the command line used to launch the process.
 
@@ -113,7 +113,7 @@ Let's try to do it for the pid 1, to see if we can access that file, which gives
 
 ![screen_response_test](./screen4.png)
 
-And we got it, time to create a script to brute-force all the pids possible, to find which ones exists and wich ones do not.
+And we got it, time to create a script to brute-force all the pids possible, to find which ones exists and wich ones does not.
 
 
 ## exploitation of the vulnerability
@@ -139,7 +139,7 @@ for i in range(1, 9999):
     time.sleep(0.1) # if there is a request/s limit
 ```
 
-If we execute the script.
+It only remains to execute the script.
 
 ```html
 Getting : 1
@@ -171,4 +171,4 @@ We just need to remove the html encoding (`&amp;` -> `&`), which gives the flag 
 
 [Here](./brute_force_flagChecker.py) is the source code of the brute force script and [here](./flagChecker.py) is the file flagChecker(that was downloaded on the website).
 
-Thanks to Mika and Antho for the challenge and thank you for reading.
+Thanks Mika and Antho for the challenge and thank you for reading.
