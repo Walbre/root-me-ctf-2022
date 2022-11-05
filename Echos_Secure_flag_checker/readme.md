@@ -115,6 +115,11 @@ Let's try to do it for the pid 1, to see if we can access that file, which gives
 
 And we got it, time to create a script to brute-force all the pids possible, to find which ones exists and wich ones do not.
 
+
+## exploitation of the vulnerability
+
+
+
 ```python
 import requests
 import time
